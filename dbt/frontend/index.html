@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Youtube Comments Analysis</title>
+    <style>
+      body {
+        font-family: 'Courier New', monospace;
+      }
+      input:focus {
+        outline: none;
+        border-color: #ccc;
+        box-shadow: none;
+      }
+
+      .table-container {
+        display: grid;
+        grid-template-columns: 150px 200px 1fr 100px 150px;
+        max-width: 100%;
+        
+      }
+
+      .table-header,
+      .table-row {
+        display: contents;
+      }
+
+      .table-cell {
+        padding: 5px;
+        text-align: left;
+        border-left: 1px solid black;
+        border-top: 1px solid black;
+        overflow: clip;
+      }
+      
+
+      .table-header .table-cell {
+        font-weight: bold;
+        color: black;
+      }
+
+      table-cell:first-child {
+        border-left: none;
+      }
+
+      .table-row:first-child .table-cell {
+        border-top: none;
+      }
+
+      .table-cell:last-child {
+        border-right: 1px solid black;
+      }
+
+      .table-row:last-child .table-cell {
+        border-bottom: 1px solid black;
+      }
+
+      .placeholder {
+        color: #888;
+      }
+
+      @keyframes dot-bounce {
+        0%, 60% { transform: translateY(0); }
+        30% { transform: translateY(-5px); }
+      }
+      
+      .dot {animation: dot-bounce 1.5s infinite ease-in-out;}
+
+      .dot:nth-child(2) { animation-delay: 0.2s;}
+      .dot:nth-child(3) { animation-delay: 0.4s;}
+      .dot:nth-child(4) { animation-delay: 0.6s;}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="m-5">
+    <div class="relative flex justify-center bg-white">
+      <div class="bg-white flex flex-col items-center w-full max-w-lg">
+        <h1 class="text-2xl mb-6 font-semibold">YouTube Comments Analysis</h1>
+        <p class="text-gray-500 mb-6 text-center text-base">Enter a YouTube Channel handle to analyze its comments.</p>
+        <form id="youtube-channel" class="w-full">
+          <div class="flex items-center border border-black overflow-hidden bg-white">
+            <span class="px-3 text-gray-500">@</span>
+            <input id="channel-handle" required type="text" placeholder="yourYoutubeChannel"
+              class="flex-1 p-3 text-gray-700 placeholder-gray-400">
+            <button type="submit"
+              class="border-black border-l text-black px-5 py-3">
+              >
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <hr class="m-10">
+    
+    <div id="output-data">
+      <div id="output-header" class="flex flex-col items-center w-full">
+        <h2 class="text-2xl mb-6 font-semibold">Results</h2>
+        <div id="loading" class="hidden text-lg font-semibold flex items-center space-x-1">
+          <span>Fetching data</span>
+          <span class="dot">.</span>
+          <span class="dot">.</span>
+          <span class="dot">.</span>
+        </div>
+      </div>
+<!--STATISTICS CARDS-->
+
+        <div class="mt-8 w-full" id="statistics">
+          <h3 class="text-xl mb-4">Statistics</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
+            <!-- Card 1 -->
+            <div class="border border-black flex flex-col justify-center items-center p-5">
+              <h4 class="text-lg">Total Comments</h4>
+              <p class="text-2xl font-semibold" id="total-comments">-</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="border border-black flex flex-col justify-center items-center p-5">
+              <h4 class="text-lg">Channel Views</h4>
+              <p class="text-2xl font-semibold" id="channel-views">-</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="border border-black flex flex-col justify-center items-center p-5">
+              <h4 class="text-lg">Videos Analyzed</h4>
+              <p class="text-2xl font-semibold" id="total-videos">0</p>
+            </div>
+          </div>
+        </div>
+
+<!--LAST COMMENTS TABLE-->
+  
+        <div class="mt-8 w-full">
+          <h3 class="text-xl mb-4">Last 10 Comments</h3>
+          <div id="comments-table">
+            <div class="table-container">
+              <!-- Table Header -->
+              <div class="table-header">
+                <div class="table-cell">Date</div>
+                <div class="table-cell">User</div>
+                <div class="table-cell">Comment</div>
+                <div class="table-cell">Likes</div>
+                <div class="table-cell">Video</div>
+              </div>
+
+              <!-- Table Rows -->
+              <div class="table-row">
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+              </div>
+              <div class="table-row">
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+              </div>
+              <div class="table-row">
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+              </div>
+              <div class="table-row">
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+              </div>
+              <div class="table-row">
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+              </div>
+              <div class="table-row">
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+              </div>
+              <div class="table-row">
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+              </div>
+              <div class="table-row">
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+              </div>
+              <div class="table-row">
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+              </div>
+              <div class="table-row">
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+                <div class="table-cell placeholder">--</div>
+              </div>
+            </div>
+        </div>
+    
+      <!--TIME SERIES-->
+
+      <div class="mt-8 w-full">
+        <h3 class="text-xl mb-4">Comments time series</h3>
+        <div id="time-series">
+          <canvas id="time-series-chart"></canvas>
+        </div>
+      </div>
+
+      <!--SENTIMENT ANALYSIS-->
+
+      <div class="mt-8 w-full">
+        <h3 class="text-xl mb-4">Sentiment Analysis</h3>
+        <div id="sentiment-analysis">
+          <canvas id="sentiment-analysis-chart"></canvas>
+        </div>
+      </div>
+
+      <!--MOST COMMENTED VIDEOS-->
+
+      <div class="mt-8 w-full">
+        <h3 class="text-xl mb-4">Most commented video</h3>
+        <div class="mt-5 w-full flex justify-center" id="most-commented-videos">
+          <div class="w-full max-w-2xl aspect-video border border-black shadow-lg p-2">
+            <iframe
+              class="w-full h-full"
+              src="https://www.youtube.com/embed/KuAZOvEhQ0M?si=SN87z3K6wwgxauLb"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
