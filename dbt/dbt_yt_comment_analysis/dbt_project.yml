@@ -6,7 +6,24 @@ name: 'dbt_yt_comment_analysis'
 version: '1.0.0'
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'dbt_yt_comment_analysis'
+profile: 'youtube_comment_analysis'
+
+vars:
+  # This setting excludes elementary on_hook_ends on any other environment than prod
+  disable_dbt_artifacts_autoupload: true
+  disable_dbt_columns_autoupload: true
+  disable_run_results: true
+  disable_tests_results: "{{ target.name != 'dev' }}"
+  disable_dbt_invocation_autoupload: true
+
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+flags:
+  require_explicit_package_overrides_for_builtin_materializations: false
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -18,7 +35,7 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-clean-targets:         # directories to be removed by `dbt clean`
+clean-targets:
   - "target"
   - "dbt_packages"
 
@@ -31,6 +48,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   dbt_yt_comment_analysis:
-    # Config indicated by + and applies to all files under models/example/
-    example:
-      +materialized: view
+    staging:
+      materialized: view
+  elementary:
+    +schema: "elementary"

@@ -1,4 +1,9 @@
-
 target/
 dbt_packages/
 logs/
+spiritual-storm-455519-e0-90d313f58bdb.json
+profiles.yml
+logs
+package-lock.yml
+packages.yml
+.user.yml
