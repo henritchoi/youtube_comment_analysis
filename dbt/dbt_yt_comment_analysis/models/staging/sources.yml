@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: youtube
+    database: spiritual-storm-455519-e0
+    schema: youtube_api_v3  
+    tables:
+      - name: dl_yout_videos
+      - name: dl_yout_video_items
+      - name: dl_yout_channels
+      - name: dl_yout_channel_items
+      - name: dl_yout_comment_threads
+      - name: dl_yout_comment_thread_items
+
