@@ -50,5 +50,6 @@ models:
   dbt_yt_comment_analysis:
     staging:
       materialized: view
-  elementary:
-    +schema: "elementary"
+      schema: dbt_stg
+    intermediate:
+      schema: dbt_intermediate
