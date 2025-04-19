@@ -51,5 +51,5 @@ models:
     staging:
       materialized: view
       schema: dbt_stg
-    staging:
+    intermediate:
       schema: dbt_intermediate

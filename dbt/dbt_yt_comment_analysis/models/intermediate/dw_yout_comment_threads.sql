@@ -19,13 +19,13 @@ WITH
             ,top_level_comment_author_channel_id
             ,top_level_comment_like_count
             ,top_level_comment_published_at
-        FROM {{ref('dl_dbt_yout_video_items')}}
+        FROM {{ref('dl_dbt_yout_comment_thread_items')}}
         WHERE
             1 = 1
 
             {% if is_incremental() %}
 
-                top_level_comment_published_at >=
+                AND top_level_comment_published_at >=
                     (SELECT 
                         max(top_level_comment_published_at)
                     FROM {{this}})

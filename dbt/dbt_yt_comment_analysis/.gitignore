@@ -7,3 +7,4 @@ logs
 package-lock.yml
 packages.yml
 .user.yml
+dbt-core/

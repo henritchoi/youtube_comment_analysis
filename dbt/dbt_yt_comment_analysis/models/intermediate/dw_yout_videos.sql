@@ -12,7 +12,7 @@ WITH
             video_id
             ,published_at_timestamp
             ,title
-            ,en_description
+            ,description_en
             ,channel_id
             ,channel_title
             ,category_id
@@ -24,7 +24,7 @@ WITH
 
             {% if is_incremental() %}
 
-                published_at_timestamp >=
+                AND published_at_timestamp >=
                     (SELECT 
                         max(published_at_timestamp)
                     FROM {{this}})
@@ -35,7 +35,7 @@ SELECT
     video_id
     ,published_at_timestamp
     ,title
-    ,en_description
+    ,description_en
     ,channel_id
     ,channel_title
     ,category_id

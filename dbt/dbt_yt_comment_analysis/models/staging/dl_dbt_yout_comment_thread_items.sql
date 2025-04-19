@@ -7,7 +7,7 @@ SELECT
     ,kind AS entity_type
     ,etag
     ,id	AS comment_thread_id
-    ,snippet_channelId AS
+    ,snippet_channelId AS channel_id
     ,snippet_videoId AS video_id
     ,snippet_topLevelComment_kind AS top_level_comment_type
     ,snippet_topLevelComment_etag AS top_level_comment_etag

@@ -23,7 +23,7 @@ WITH
 
             {% if is_incremental() %}
 
-                published_at_timestamp >=
+                AND published_at_timestamp >=
                     (SELECT 
                         max(published_at_timestamp)
                     FROM {{this}})
