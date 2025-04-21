@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: dw_yout_channels
+    description: '{{ doc("dw_yout_channels") }}'
+    columns:
+      - name: channel_id
+        description: Primary Key of this model, identifying a unique record in this table
+        data_tests:
+          - unique
+          - not_null
+  - name: dw_yout_comment_threads
+    description: '{{ doc("dw_yout_comment_threads") }}'
+    columns:
+      - name: comment_thread_id
+        description: Primary Key of this model, identifying a unique record in this table
+        data_tests:
+          - unique
+          - not_null
+  - name: dw_yout_videos
+    description: '{{ doc("dw_yout_videos") }}'
+    columns:
+      - name: video_id
+        description: Primary Key of this model, identifying a unique record in this table
+        data_test:
+          - unique
+          - not_null
