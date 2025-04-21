@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: dw_yout_channels
+    description: '{{ doc("dw_yout_channels") }}'
+  - name: dw_yout_comment_threads
+    description: '{{ doc("dw_yout_comment_threads") }}'
+  - name: dw_yout_videos
+    description: '{{ doc("dw_yout_videos") }}'
