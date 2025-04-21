@@ -2,7 +2,7 @@
     config(
         materialized = 'incremental'
         ,unique_key = 'video_id'
-        ,on_schena_change = 'sync_all_columns'
+        ,on_schema_change = 'sync_all_columns'
     )
 }}
 

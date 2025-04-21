@@ -2,7 +2,7 @@
     config(
         materialized = 'incremental'
         ,unique_key = 'comment_thread_id'
-        ,on_schena_change = 'sync_all_columns'
+        ,on_schema_change = 'sync_all_columns'
     )
 }}
 
